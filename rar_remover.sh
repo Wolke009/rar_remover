@@ -1,48 +1,48 @@
 #!/bin/bash
 
-read -p "Bitte geben Sie den Pfad ein, in dem nach .rar Dateien gesucht werden soll: " SEARCH_DIR
+read -p "Enter the path that should be scaned: " SEARCH_DIR
 
-# Überprüfen, ob der Benutzer einen Pfad eingegeben hat
+# Check, if the user entered a path
 if [ -z "$SEARCH_DIR" ]; then
-    echo "Kein Pfad eingegeben. Beende das Skript."
+    echo "No path entered. Shutting down the script!"
     exit 1
 fi
 
-# Überprüfen, ob der Pfad existiert
+# Check, if path exits
 if [ ! -d "$SEARCH_DIR" ]; then
-    echo "Der angegebene Pfad existiert nicht. Beende das Skript."
+    echo "This path don't exists. Shutting down the script!"
     exit 1
 fi
 
 # Rekursive Suche nach .rar Dateien
 RAR_FILES=$(find "$SEARCH_DIR" -type f -name "*.rar")
 
-# Überprüfen, ob .rar Dateien gefunden wurden
+# Check if .rar files were found
 if [ -z "$RAR_FILES" ]; then
-    echo "Keine .rar Dateien gefunden."
+    echo "No .rar files found."
     exit 0
 fi
 
 # Liste der gefundenen .rar Dateien anzeigen
-echo "Gefundene .rar Dateien:"
+echo "Found .rar files:"
 echo "$RAR_FILES"
 
 # y/n Abfrage
-read -p "Möchtest du alle diese Dateien löschen? (y/n): " answer
+read -p "Do you want to delete this files? (y/n): " answer
 
 # Entscheidung basierend auf der Benutzereingabe
 case $answer in
     [Yy]* ) 
-        echo "Lösche die .rar Dateien..."
+        echo "Delete the.rar files..."
         # Löschen der .rar Dateien
         find "$SEARCH_DIR" -type f -name "*.rar" -exec rm -v {} \;
-        echo "Alle .rar Dateien wurden gelöscht."
+        echo "All .rar files were deleted!"
         ;;
     [Nn]* ) 
-        echo "Abbruch. Keine Dateien wurden gelöscht."
+        echo "Error, no files were deleted"
         ;;
     * ) 
-        echo "Ungültige Eingabe. Abbruch."
+        echo "Error!"
         ;;
 esac
 
